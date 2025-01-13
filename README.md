@@ -40,7 +40,7 @@ Sigue estos pasos para instalar y ejecutar el proyecto en tu entorno local:
 
 1. **Clonar el repositorio:**
    ```bash
-   git clone <url-del-repositorio>
+   git clone https://github.com/WillJkdev/Blog-Articles.git
    cd blog-articles
    ```
 
