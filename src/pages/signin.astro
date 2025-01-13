@@ -1,0 +1,27 @@
+---
+import LoginForm from '@/components/LoginForm.astro';
+import FormLayout from '@/layouts/FormLayout.astro';
+---
+
+<FormLayout page="Login">
+  <div class="max-w-md w-full bg-white rounded-xl shadow-lg p-8">
+    <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Sign In</h2>
+    <LoginForm />
+    <p class="mt-2 text-sm font-light">
+      Don't have an account? <a
+        href="/signup"
+        class="font-medium text-indigo-600 hover:underline">Sign Up</a
+      >
+    </p>
+    <div class="italic text-lg">
+      <center>
+        <span class="block text-sm mt-2.5 not-italic text-[#757575]"
+          >Email: user@example.com</span
+        >
+        <span class="block text-sm mt-2.5 not-italic text-[#757575]"
+          >Password: 12345</span
+        >
+      </center>
+    </div>
+  </div>
+</FormLayout>

@@ -1,0 +1,26 @@
+---
+interface Props {
+  date: Date; // Fecha que se pasará al componente
+  language?: string; // Idioma para el formato de la fecha (por defecto 'es-ES')
+  format?: string; // Formato de la fecha ('short', 'long', etc.)
+  className?: string; // Clase personalizada para el elemento <time>
+}
+
+const {
+  date,
+  language = 'es-ES',
+  format = 'short',
+  className = 'text-sm text-zinc-400',
+} = Astro.props;
+---
+
+<time datetime={date.toISOString()} class={className}>
+  {
+    date.toLocaleDateString(language, {
+      year: 'numeric',
+      month: format === 'short' ? 'short' : 'long',
+      day: 'numeric',
+      weekday: format === 'short' ? undefined : 'long',
+    })
+  }
+</time>

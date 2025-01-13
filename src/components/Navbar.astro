@@ -1,0 +1,36 @@
+---
+import ThemeIcon from './ThemeIcon.astro';
+
+const items = [
+  { text: 'Home', href: '/' },
+  { text: 'Blog', href: '/blog' },
+  { text: 'Categories', href: '/blog/category' },
+  { text: 'About', href: '/about' },
+];
+---
+
+<nav
+  class="border-b bg-gray-50 border-gray-900 dark:bg-gray-900 dark:border-gray-100 font-inter"
+>
+  <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+    <div class="flex items-center space-x-8 dark:text-white">
+      <h1 class="text-2xl font-bold cursor-default">ScienceBlog</h1>
+      <div class="md:flex space-x-6">
+        {
+          items.map((item) => (
+            <a
+              href={item.href}
+              class=" text-gray-700 dark:text-gray-200 font-medium hover:text-blue-500 transition-colors duration-300"
+            >
+              {item.text}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+    <div class="flex items-center space-x-8">
+      <ThemeIcon svgWidth=" 25px" />
+      <slot />
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,45 @@
+---
+import BlogLayout from '../layouts/BlogLayout.astro';
+import Logged from '../components/Logged.astro';
+
+const user = Astro.locals.user;
+if (!user) {
+  return Astro.redirect('/signin');
+}
+---
+
+<BlogLayout title="About Me">
+  <Fragment slot="user">
+    {user && <Logged user={user} />}
+  </Fragment>
+  <div class="min-h-full bg-gray-100 dark:bg-gray-900">
+    <main class="max-w-5xl mx-auto px-4 py-12 dark:text-white">
+      <h1 class="text-4xl font-bold mb-8">About Me</h1>
+
+      <div class="prose prose-lg dark:text-white">
+        <p class="mb-6">
+          Hello! I'm [Your Name], a passionate [Your Profession/Interest] based
+          in [Location]. I create content about [Your Topics] and share my
+          experiences in the world of technology.
+        </p>
+
+        <h2 class="text-2xl font-semibold mt-8 mb-4">What I Do</h2>
+        <p class="mb-6">
+          I specialize in web development, creating content, and sharing
+          knowledge through this blog. My goal is to help others learn and grow
+          in their technical journey.
+        </p>
+
+        <h2 class="text-2xl font-semibold mt-8 mb-4">Contact</h2>
+        <p>
+          Feel free to reach out to me through:
+          <ul class="list-disc ml-6 mt-2">
+            <li>Email: your@email.com</li>
+            <li>Twitter: @yourhandle</li>
+            <li>GitHub: @yourusername</li>
+          </ul>
+        </p>
+      </div>
+    </main>
+  </div>
+</BlogLayout>

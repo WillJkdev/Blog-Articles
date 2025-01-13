@@ -1,0 +1,80 @@
+---
+import { getAllCategories } from '@/utils/getAllCategories';
+const categories = await getAllCategories();
+
+interface Props {
+  placeholder?: string;
+}
+
+const { placeholder = 'Seleccionar...' } = Astro.props;
+---
+
+<div class="relative z-50">
+  <input
+    type="text"
+    id="comboboxInput"
+    class="min-w-64 p-2 border rounded-md"
+    placeholder={placeholder}
+    role="combobox"
+    aria-expanded="false"
+    aria-controls="comboboxList"
+    autocomplete="off"
+  />
+  <div
+    id="comboboxList"
+    role="listbox"
+    class="absolute mt-1 w-64 bg-white text-black dark:bg-gray-900 dark:text-white border-1 border-gray-300 rounded-md shadow-lg max-h-48 overflow-y-auto hidden"
+  >
+    {
+      categories.map((option) => (
+        <div
+          class="px-4 py-2 cursor-pointer hover:bg-gray-200 hover:text-gray-900 text-black dark:text-gray-200"
+          role="option"
+        >
+          {option}
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  function normalizeCategory(category: string) {
+    return category.trim().toLowerCase().replace(/\s+/g, '_');
+  }
+  const input = document.getElementById('comboboxInput') as HTMLInputElement;
+  const list = document.getElementById('comboboxList') as HTMLDivElement;
+  const options = Array.from(list.children);
+
+  function showList() {
+    list.classList.remove('hidden');
+    input.setAttribute('aria-expanded', 'true');
+  }
+
+  function hideList() {
+    list.classList.add('hidden');
+    input.setAttribute('aria-expanded', 'false');
+  }
+
+  function filterOptions(value: string) {
+    const filter = value.toLowerCase();
+    options.forEach((option) => {
+      const matches = option.textContent?.toLowerCase().includes(filter);
+      (option as HTMLElement).style.display = matches ? '' : 'none';
+    });
+  }
+
+  // Event Listeners
+  input.addEventListener('focus', showList);
+  input.addEventListener('blur', () => setTimeout(hideList, 150));
+  input.addEventListener('input', () => filterOptions(input.value));
+
+  options.forEach((option) => {
+    option.addEventListener('click', () => {
+      input.value = option.textContent || '';
+      hideList();
+      const normalizedCategory = normalizeCategory(option.textContent || '');
+      window.location.href = `/blog/category/${normalizedCategory}`;
+    });
+  });
+</script>

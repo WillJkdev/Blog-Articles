@@ -1,0 +1,64 @@
+---
+import { getAllCategories, normalizeCategory } from '@/utils/getAllCategories';
+import { getCollection } from 'astro:content';
+import ArticleList from '@/layouts/ArticleList.astro';
+import ArticleCard from '@/components/ArticleCard.astro';
+import TagSelector from '@/components/TagSelector.astro';
+import BlogLayout from '@/layouts/BlogLayout.astro';
+import Logged from '@/components/Logged.astro';
+
+// Verificar si el usuario ha iniciado sesión
+const user = Astro.locals.user;
+if (!user) {
+  return Astro.redirect('/signin');
+}
+
+// Obtener los parámetros dinámicos
+const { category: normalizedCategory } = Astro.params;
+if (!normalizedCategory) {
+  return Astro.redirect('/404'); // Redirige a la página 404 si no hay un parámetro
+}
+
+// Obtener el array de categorías originales
+const categories = await getAllCategories();
+
+// Buscar el nombre original haciendo match con el valor normalizado
+const originalCategory = categories.find(
+  (cat) => normalizeCategory(cat) === normalizedCategory
+);
+
+// Redirigir si no se encuentra la categoría
+if (!originalCategory) {
+  return Astro.redirect('/404');
+}
+
+// Obtener los artículos relacionados con la categoría
+const posts = await getCollection('blog', ({ data }) =>
+  data.categories?.map(normalizeCategory).includes(normalizedCategory)
+);
+---
+
+<!-- Mostrar lista de artículos -->
+<BlogLayout title={`Categoría - ${originalCategory}`}>
+  <Fragment slot="user">
+    {user && <Logged user={user} />}
+  </Fragment>
+
+  <ArticleList>
+    <Fragment slot="filter">
+      <TagSelector />
+    </Fragment>
+    <h1 class="text-4xl text-end mb-6">
+      Categoría: <span class="italic font-bold text-4xl">
+        {originalCategory}
+      </span>
+    </h1>
+    {
+      posts.map((post) => (
+        <li>
+          <ArticleCard {...post.data} slug={post.slug} />
+        </li>
+      ))
+    }
+  </ArticleList>
+</BlogLayout>

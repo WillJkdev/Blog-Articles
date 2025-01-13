@@ -1,0 +1,113 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  favicon?: string;
+}
+
+const {
+  title = 'Titulo de Astro',
+  description = 'Descripción de Astro',
+  image = '/intro_blog.webp',
+  favicon = '/favicon.svg',
+} = Astro.props;
+import { ClientRouter } from 'astro:transitions';
+---
+
+<head>
+  <!-- Global Metadata -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="icon" type="image/svg+xml" href={favicon} />
+  <!-- <meta name="generator" content={Astro.generator} />| -->
+
+  <!-- Canonical URL -->
+  <!-- <link rel="canonical" href={canonicalURL} /> -->
+
+  <!-- Primary Meta Tags -->
+  <title>{title}</title>
+  <meta name="title" content={title} />
+  <meta name="description" content={description} />
+  <ClientRouter />
+</head>
+
+<!-- Open Graph / Facebook -->
+<!-- <meta property="og:type" content="website" />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={new URL(image, Astro.url)} /> -->
+
+<!-- Twitter -->
+<!-- <meta property="twitter:card" content="summary_large_image" /> -->
+<!-- <meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={new URL(image, Astro.url)} /> -->
+
+<style is:global>
+  @font-face {
+    font-family: 'ProductSans';
+    src: url('/fonts/ProductSans-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'ProductSans';
+    src: url('/fonts/ProductSans-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'ProductSans';
+    src: url('/fonts/ProductSans-Light.woff') format('woff');
+    font-weight: light;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'ProductSans';
+    src: url('/fonts/ProductSans-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Merriweather';
+    src: url('/fonts/Merriweather-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Merriweather';
+    src: url('/fonts/Merriweather-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Merriweather';
+    src: url('/fonts/Merriweather-Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Merriweather';
+    src: url('/fonts/Merriweather-BoldItalic.ttf') format('truetype');
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Inter';
+    src: url('/fonts/Inter-VariableFont.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+  }
+</style>

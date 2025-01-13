@@ -1,0 +1,132 @@
+---
+import { Icon } from 'astro-icon/components';
+interface Props {
+  user: {
+    username: string;
+    email: string;
+  };
+}
+const { user } = Astro.props;
+---
+
+<div class="relative inline-block">
+  <button
+    id="dropdownButton"
+    data-dropdown-toggle="dropdownAvatarName"
+    class="relative flex items-center text-sm font-medium text-gray-900 rounded-full hover:text-blue-600 dark:hover:text-blue-500 md:mr-0 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-white"
+    type="button"
+  >
+    <span class="sr-only">Open user menu</span>
+    <img
+      class="w-8 h-8 me-2 rounded-full"
+      src="/profile-picture-2.jpg"
+      alt="user photo"
+    />
+    {user.username}
+    <svg
+      class="w-2.5 h-2.5 ms-3"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 10 6"
+    >
+      <path
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="m1 1 4 4 4-4"></path>
+    </svg>
+  </button>
+
+  <!-- Dropdown menu -->
+  <div
+    id="dropdownAvatarName"
+    class="absolute right-0 mt-2 z-10 hidden transform opacity-0 transition-all duration-300 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
+  >
+    <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
+      <div class="font-medium">{user.username}</div>
+      <div class="truncate">{user.email}</div>
+    </div>
+
+    <div class="py-2">
+      <a
+        id="logout-button"
+        href="#"
+        class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+      >
+        <Icon class="mr-2 dark:text-white text-2xl" name="lucide:log-out" />
+        Sign out</a
+      >
+    </div>
+  </div>
+</div>
+<script data-astro-rerun>
+  (() => {
+    // Obtenemos los elementos necesarios
+    const dropdownButton = document.getElementById('dropdownButton');
+    const dropdownMenu = document.getElementById('dropdownAvatarName');
+    const logoutButton = document.getElementById('logout-button');
+
+    // Función para alternar la visibilidad del menú desplegable
+    const toggleDropdownMenu = (e) => {
+      e.stopPropagation();
+      if (dropdownMenu) {
+        dropdownMenu.classList.toggle('hidden');
+        if (!dropdownMenu.classList.contains('hidden')) {
+          dropdownMenu.classList.add('translate-y-0', 'opacity-100');
+          dropdownMenu.classList.remove('-translate-y-4', 'opacity-0');
+        } else {
+          dropdownMenu.classList.remove('translate-y-0', 'opacity-100');
+          dropdownMenu.classList.add('-translate-y-4', 'opacity-0');
+        }
+      }
+    };
+
+    // Función para cerrar el menú desplegable si hacemos clic fuera de él
+    const closeDropdownMenu = (e) => {
+      if (
+        dropdownMenu &&
+        !dropdownMenu.contains(e.target) &&
+        e.target !== dropdownButton
+      ) {
+        dropdownMenu.classList.add('hidden', '-translate-y-4', 'opacity-0');
+        dropdownMenu.classList.remove('translate-y-0', 'opacity-100');
+      }
+    };
+
+    // Función para manejar el cierre de sesión
+    const handleLogout = async () => {
+      try {
+        const response = await fetch('/api/logout', {
+          method: 'POST',
+        });
+
+        if (response.ok) {
+          window.location.href = '/signin';
+        } else {
+          console.error('Error al cerrar sesión', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    // Evitar inicializaciones duplicadas
+    if (dropdownButton && !dropdownButton.dataset.initialized) {
+      dropdownButton.addEventListener('click', toggleDropdownMenu);
+      document.addEventListener('click', closeDropdownMenu);
+      dropdownButton.dataset.initialized = true; // Marcamos como inicializado
+    }
+
+    if (logoutButton && !logoutButton.dataset.initialized) {
+      logoutButton.addEventListener('click', handleLogout);
+      logoutButton.dataset.initialized = true; // Marcamos como inicializado
+    }
+
+    // Estado inicial para asegurar que el menú esté oculto
+    if (dropdownMenu && !dropdownMenu.classList.contains('hidden')) {
+      dropdownMenu.classList.add('hidden', '-translate-y-4', 'opacity-0');
+    }
+  })();
+</script>

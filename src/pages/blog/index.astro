@@ -1,0 +1,31 @@
+---
+import BlogLayout from '@/layouts/BlogLayout.astro';
+import { getCollection } from 'astro:content';
+import ArticleCard from '@/components/ArticleCard.astro';
+import BlogBody from '@/components/BlogBody.astro';
+import Logged from '@/components/Logged.astro';
+import Combobox from '@/components/Combobox.astro';
+
+const user = Astro.locals.user;
+if (!user) {
+  return Astro.redirect('/signin');
+}
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<BlogLayout title="Blog">
+  <Fragment slot="user">
+    {user && <Logged user={user} />}
+  </Fragment>
+  <BlogBody>
+    {
+      posts.length === 0 ? (
+        <p>Cargando artículos...</p>
+      ) : (
+        posts.map((post) => <ArticleCard {...post.data} slug={post.slug} />)
+      )
+    }
+  </BlogBody>
+</BlogLayout>

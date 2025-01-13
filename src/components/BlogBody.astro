@@ -1,0 +1,24 @@
+---
+import Combobox from './Combobox.astro';
+---
+
+<div class="min-h-full dark:text-white dark:bg-gray-900">
+  <main class="container mx-auto px-4 py-8 font-inter">
+    <header class="text-center mb-12">
+      <h1 class="text-4xl font-bold mb-4">Latest Scientific Discoveries</h1>
+      <p class="text-lg font-inter italic max-w-2xl mx-auto">
+        Explore cutting-edge research and breakthrough discoveries across
+        various scientific disciplines.
+      </p>
+    </header>
+    <div class="flex justify-end text-end mb-4">
+      <span class="text-lg font-semibold mx-3 py-2">
+        Filtrar por categoría
+      </span>
+      <Combobox />
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <slot />
+    </div>
+  </main>
+</div>

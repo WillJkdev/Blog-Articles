@@ -1,0 +1,29 @@
+---
+import BaseHead from '@/components/BaseHead.astro';
+import Navbar from '@/components/Navbar.astro';
+
+interface Props {
+  title?: string;
+  favicon?: string;
+}
+
+const { title, favicon } = Astro.props;
+---
+
+<!doctype html>
+<html class="scroll-smooth" lang="es">
+  <head>
+    <BaseHead title={title} favicon={favicon} />
+    <!-- <meta name="generator" content={Astro.generator} /> -->
+  </head>
+  <body class="dark:text-white dark:bg-gray-900">
+    <div class="navbar fixed z-40 top-0 left-0 w-full h-16">
+      <Navbar>
+        <slot name="user" />
+      </Navbar>
+    </div>
+    <div class="pt-16">
+      <slot />
+    </div>
+  </body>
+</html>

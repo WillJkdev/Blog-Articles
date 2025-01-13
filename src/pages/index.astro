@@ -1,0 +1,100 @@
+---
+import Logged from '../components/Logged.astro';
+import BlogLayout from '../layouts/BlogLayout.astro';
+
+const user = Astro.locals.user;
+if (!user) {
+  return Astro.redirect('/signin');
+}
+---
+
+<BlogLayout title="Home">
+  <Fragment slot="user">
+    {user && <Logged user={user} />}
+  </Fragment>
+
+  <div class="min-h-full dark:text-white dark:bg-gray-900 py-12">
+    <div class="container mx-auto px-4 max-w-6xl font-inter">
+      <h1 class="text-5xl pb-12 font-bold first-letter:uppercase">
+        Scientific Articles Blog
+      </h1>
+
+      <div class="relative flex flex-wrap min-w-full gap-5">
+        <a
+          href="/"
+          class="pb-2.5 first-letter:uppercase font-medium hover:text-sky-500 dark:hover:border-white hover:border-opacity-100 transition-colors duration-150 ease-linear border-black border-b-2 text-black z-10 dark:border-white dark:text-white dark:border-opacity-100 border-opacity-100"
+        >
+          View All
+        </a>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-medium tracking-wide text-end mb-6">
+          Latest Posts
+        </h2>
+
+        <article class="flex flex-col gap-2">
+          <div class="relative overflow-hidden">
+            <img
+              src="/intro_blog.webp"
+              class="h-full w-full object-cover hover:scale-[101%] transition-all duration-200 rounded-[2px]"
+              alt="img of Astro Components"
+              width="600"
+              height="200"
+              loading="lazy"
+              decoding="async"
+            />
+            <div
+              class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent py-8 px-6"
+            >
+              <div class="flex justify-between items-center text-white w-full">
+                <time class="text-xl font-bold text-opacity-60">
+                  {
+                    // Formatear la fecha en español con días y meses abreviados
+                    new Date()
+                      .toLocaleDateString('es-ES', {
+                        weekday: 'short', // Día de la semana abreviado (lun, mar, etc.)
+                        year: 'numeric',
+                        month: 'short', // Mes abreviado (ene, feb, etc.)
+                        day: 'numeric',
+                      })
+                      // Convertir la primera letra de cada palabra a mayúscula
+                      .replace(/\b\w/g, (char) => char.toUpperCase())
+                  }
+                </time>
+                <div class="max-auto">
+                  <a
+                    href="/blog"
+                    class="flex justify-center items-center text-2xl max-h-8 py-0 dark:text-white rounded-full hover:translate-x-1 transition-transform duration-150 ease-in-out font-semibold gap-1 group leading-none"
+                    aria-label="go to Astro Components"
+                  >
+                    Read Post
+                    <span
+                      class="mt-[1px] group-hover:rotate-45 transition-transform duration-250 ease-in-out"
+                    >
+                      <svg
+                        class="feather feather-arrow-up-right block"
+                        fill="none"
+                        height="24"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2.5"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <line x1="7" x2="17" y1="17" y2="7"></line>
+                        <polyline points="7 7 17 7 17 17"></polyline>
+                      </svg>
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</BlogLayout>

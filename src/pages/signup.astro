@@ -1,0 +1,23 @@
+---
+import RegisterForm from '@/components/RegisterForm.astro';
+import FormLayout from '@/layouts/FormLayout.astro';
+---
+
+<FormLayout page="Register">
+  <div class="max-w-md w-full bg-white rounded-xl shadow-lg p-8">
+    <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Sign Un</h2>
+
+    <RegisterForm />
+
+    <div class="italic text-lg">
+      <center>
+        <span class="block text-sm mt-2.5 not-italic text-[#757575]"
+          >Email: general@example.com</span
+        >
+        <span class="block text-sm mt-2.5 not-italic text-[#757575]"
+          >Password: 12345</span
+        >
+      </center>
+    </div>
+  </div>
+</FormLayout>

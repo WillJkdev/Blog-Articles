@@ -1,0 +1,39 @@
+---
+import { getEntry, render } from 'astro:content';
+import Logged from '@/components/Logged.astro';
+import BlogLayout from '@/layouts/BlogLayout.astro';
+import Prose from '@/components/Prose.astro';
+import ArticleHero from '@/components/ArticleHero.astro';
+import ArticleContent from '@/components/ArticleContent.astro';
+// import '@/styles/apa.css';
+
+const { slug } = Astro.params;
+if (!slug || typeof slug !== 'string') {
+  return Astro.redirect('/404');
+}
+const blogPost = await getEntry('blog', slug);
+if (!blogPost) {
+  return Astro.redirect('/404');
+}
+const { Content } = await render(blogPost);
+
+const user = Astro.locals.user;
+if (!user) {
+  return Astro.redirect('/signin');
+}
+const favicon =
+  'https://revistas.unjbg.edu.pe/public/journals/6/favicon_es_ES.ico';
+---
+
+<BlogLayout title={blogPost.data.title} favicon={favicon}>
+  <Fragment slot="user">
+    {user && <Logged user={user} />}
+  </Fragment>
+  <ArticleHero {...blogPost.data} />
+
+  <ArticleContent>
+    <Prose>
+      <Content />
+    </Prose>
+  </ArticleContent>
+</BlogLayout>
